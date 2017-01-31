@@ -1,17 +1,370 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/scrollView"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="com.example.kevin.steamworksscout.MainActivity">
+    android:background="@color/blue"
+    tools:context="com.example.kevin.steamworksscout.MainActivity"
+    tools:showIn="@layout/activity_main">
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:textColor="@color/yellow"
+        android:textColorHint="@color/yellow"
+        android:id="@+id/nameField"
+        android:ems="10"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:hint="Your Initials"/>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="numberSigned"
+        android:textColor="@color/yellow"
+        android:textColorHint="@color/yellow"
+        android:ems="10"
+        android:id="@+id/matchNumber"
+        android:layout_below="@id/nameField"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:hint="Match Number"></EditText>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="numberSigned"
+        android:textColor="@color/yellow"
+        android:textColorHint="@color/yellow"
+        android:ems="10"
+        android:id="@+id/teamNumber"
+        android:layout_below="@id/matchNumber"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:hint="Team Number"></EditText>
 
     <TextView
-        android:text="Hello World!"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="Autonomous"
+        android:textColor="@color/yellow"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:id="@+id/autonomousText"
+        android:layout_below="@id/teamNumber"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"/>
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Scored Gear"
+        android:textColor="@color/yellow"
+        android:id="@+id/gearAutoBox"
+        android:layout_below="@id/autonomousText"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:checked="false"/>
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Scored in Low Goal"
+        android:textColor="@color/yellow"
+        android:id="@+id/lowInAutoBox"
+        android:layout_below="@id/gearAutoBox"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:checked="false"/>
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/highFuelAutoSpinner"
+        android:textColor="@color/yellow"
+        android:layout_below="@id/lowInAutoBox"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:background="@android:drawable/btn_dropdown"
+        android:spinnerMode="dropdown"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tele-Op"
+        android:textColor="@color/yellow"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:id="@+id/teleOpText"
+        android:layout_below="@id/highFuelAutoSpinner"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_below="@id/teleOpText"
+        android:id="@+id/gearScoreLayout">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Gears Scored: "
+            android:textColor="@color/yellow"
+            android:layout_marginTop="13dp"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:id="@+id/gearsScoredText"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"/>
+        <Button
+            android:layout_width="32dp"
+            android:layout_height="match_parent"
+            android:layout_toEndOf="@id/gearsScoredText"
+            android:layout_toRightOf="@id/gearsScoredText"
+            android:id="@+id/decGearsScoredButton"
+            android:text="-"/>
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="42dp"
+            android:layout_marginTop="3dp"
+            android:id="@+id/gearsScoredSpinner"
+            android:background="@android:drawable/btn_dropdown"
+            android:spinnerMode="dropdown"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@id/decGearsScoredButton"
+            android:layout_toEndOf="@id/decGearsScoredButton"/>
+        <Button
+            android:layout_width="32dp"
+            android:layout_height="match_parent"
+            android:layout_toEndOf="@id/gearsScoredSpinner"
+            android:layout_toRightOf="@id/gearsScoredSpinner"
+            android:id="@+id/incGearsScoredButton"
+            android:text="+"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_below="@id/gearScoreLayout"
+        android:id="@+id/lowFuelLayout">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Low Goal Cycles: "
+            android:textColor="@color/yellow"
+            android:layout_marginTop="13dp"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:id="@+id/lowFuelCyclesText"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"/>
+        <Button
+            android:layout_width="32dp"
+            android:layout_height="match_parent"
+            android:layout_toEndOf="@id/lowFuelCyclesText"
+            android:layout_toRightOf="@id/lowFuelCyclesText"
+            android:id="@+id/decLowFuelCyclesButton"
+            android:text="-"/>
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="42dp"
+            android:layout_marginTop="3dp"
+            android:id="@+id/lowFuelCyclesSpinner"
+            android:background="@android:drawable/btn_dropdown"
+            android:spinnerMode="dropdown"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@id/decLowFuelCyclesButton"
+            android:layout_toEndOf="@id/decLowFuelCyclesButton"/>
+        <Button
+            android:layout_width="32dp"
+            android:layout_height="match_parent"
+            android:layout_toEndOf="@id/lowFuelCyclesSpinner"
+            android:layout_toRightOf="@id/lowFuelCyclesSpinner"
+            android:id="@+id/incLowFuelCyclesButton"
+            android:text="+"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_below="@id/lowFuelLayout"
+        android:id="@+id/highFuelLayout">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="High Goal Cycles: "
+            android:textColor="@color/yellow"
+            android:layout_marginTop="13dp"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:id="@+id/highFuelCyclesText"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"/>
+        <Button
+            android:layout_width="32dp"
+            android:layout_height="match_parent"
+            android:layout_toEndOf="@id/highFuelCyclesText"
+            android:layout_toRightOf="@id/highFuelCyclesText"
+            android:id="@+id/decHighFuelCyclesButton"
+            android:text="-"/>
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="42dp"
+            android:layout_marginTop="3dp"
+            android:id="@+id/highFuelCyclesSpinner"
+            android:background="@android:drawable/btn_dropdown"
+            android:spinnerMode="dropdown"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@id/decHighFuelCyclesButton"
+            android:layout_toEndOf="@id/decHighFuelCyclesButton"/>
+        <Button
+            android:layout_width="32dp"
+            android:layout_height="match_parent"
+            android:layout_toEndOf="@id/highFuelCyclesSpinner"
+            android:layout_toRightOf="@id/highFuelCyclesSpinner"
+            android:id="@+id/incHighFuelCyclesButton"
+            android:text="+"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_below="@id/highFuelLayout"
+        android:id="@+id/highFuelMissedLayout">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="High Fuel Missed: "
+            android:textColor="@color/yellow"
+            android:layout_marginTop="13dp"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:id="@+id/highFuelMissedText"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"/>
+        <Button
+            android:layout_width="32dp"
+            android:layout_height="match_parent"
+            android:layout_toEndOf="@id/highFuelMissedText"
+            android:layout_toRightOf="@id/highFuelMissedText"
+            android:id="@+id/decHighFuelMissedButton"
+            android:text="-"/>
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="42dp"
+            android:layout_marginTop="3dp"
+            android:id="@+id/highFuelMissedSpinner"
+            android:background="@android:drawable/btn_dropdown"
+            android:spinnerMode="dropdown"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@id/decHighFuelMissedButton"
+            android:layout_toEndOf="@id/decHighFuelMissedButton"/>
+        <Button
+            android:layout_width="32dp"
+            android:layout_height="match_parent"
+            android:layout_toEndOf="@id/highFuelMissedSpinner"
+            android:layout_toRightOf="@id/highFuelMissedSpinner"
+            android:id="@+id/incHighFuelMissedButton"
+            android:text="+"/>
+    </RelativeLayout>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="numberSigned"
+        android:textColor="@color/yellow"
+        android:textColorHint="@color/yellow"
+        android:ems="10"
+        android:id="@+id/cargoSize"
+        android:layout_below="@id/highFuelMissedLayout"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:hint="Cargo Size"></EditText>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_below="@id/cargoSize"
+        android:id="@+id/defendsLayout">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Robot Defends: "
+            android:textColor="@color/yellow"
+            android:layout_marginTop="13dp"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:id="@+id/defendsText"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"/>
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="42dp"
+            android:layout_marginTop="3dp"
+            android:id="@+id/defendsSpinner"
+            android:background="@android:drawable/btn_dropdown"
+            android:spinnerMode="dropdown"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@id/defendsText"
+            android:layout_toEndOf="@id/defendsText"/>
+    </RelativeLayout>
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hang"
+        android:textColor="@color/yellow"
+        android:id="@+id/hangBox"
+        android:layout_below="@id/defendsLayout"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:checked="false"/>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:textColor="@color/yellow"
+        android:textColorHint="@color/yellow"
+        android:ems="10"
+        android:id="@+id/commentsField"
+        android:layout_below="@id/hangBox"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:hint="Comments"></EditText>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_below="@id/commentsField"
+        android:id="@+id/buttonsLayout">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="RESET"
+            android:textColor="@color/blue"
+            android:id="@+id/resetButton"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:text="SEND"
+            android:textColor="@color/blue"
+            android:id="@+id/sendButton"
+            android:layout_alignParentRight="true"/>
+    </RelativeLayout>
 </RelativeLayout>
+</ScrollView>
