@@ -3,6 +3,9 @@ package com.example.kevin.steamworksscout;
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -135,6 +138,19 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse{
         String[] defendsItems = new String[]{"None", "Neutral", "Launchpad", "Key"};
         ArrayAdapter<String> defendsAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, defendsItems);
         defendsSpinner.setAdapter(defendsAdapter);
+
+        //SCROLL VIEW HACK: fixes annoying bug where the screen scrolls to an EditText view after scrolling/pressing a button
+        //DO NOT CHANGE OR REMOVE
+        scrollView.setDescendantFocusability(ViewGroup.FOCUS_BEFORE_DESCENDANTS);
+        scrollView.setFocusable(true);
+        scrollView.setFocusableInTouchMode(true);
+        scrollView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                v.requestFocusFromTouch();
+                return false;
+            }
+        });
     }
 
     @Override
