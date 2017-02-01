@@ -82,7 +82,7 @@
     <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Scored in Low Goal"
+        android:text="Scored fuel in low"
         android:textColor="@color/yellow"
         android:id="@+id/lowInAutoBox"
         android:layout_below="@id/gearAutoBox"
@@ -90,16 +90,47 @@
         android:layout_alignParentStart="true"
         android:checked="false"/>
 
-    <Spinner
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/highFuelAutoSpinner"
-        android:textColor="@color/yellow"
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
         android:layout_below="@id/lowInAutoBox"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:background="@android:drawable/btn_dropdown"
-        android:spinnerMode="dropdown"/>
+        android:id="@+id/highFuelAutoLayout">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fuel scored in high: "
+            android:textColor="@color/yellow"
+            android:layout_marginTop="13dp"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:id="@+id/highFuelAutoText"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"/>
+        <Button
+            android:layout_width="32dp"
+            android:layout_height="match_parent"
+            android:layout_toEndOf="@id/highFuelAutoText"
+            android:layout_toRightOf="@id/highFuelAutoText"
+            android:id="@+id/decHighFuelAutoButton"
+            android:text="-"/>
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="42dp"
+            android:layout_marginTop="3dp"
+            android:id="@+id/highFuelAutoSpinner"
+            android:background="@android:drawable/btn_dropdown"
+            android:spinnerMode="dropdown"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@id/decHighFuelAutoButton"
+            android:layout_toEndOf="@id/decHighFuelAutoButton"/>
+        <Button
+            android:layout_width="32dp"
+            android:layout_height="match_parent"
+            android:layout_toEndOf="@id/highFuelAutoSpinner"
+            android:layout_toRightOf="@id/highFuelAutoSpinner"
+            android:id="@+id/incHighFuelAutoButton"
+            android:text="+"/>
+    </RelativeLayout>
 
     <TextView
         android:layout_width="wrap_content"
@@ -109,7 +140,7 @@
         android:textSize="18sp"
         android:textStyle="bold"
         android:id="@+id/teleOpText"
-        android:layout_below="@id/highFuelAutoSpinner"
+        android:layout_below="@id/highFuelAutoLayout"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"/>
 
@@ -366,5 +397,13 @@
             android:id="@+id/sendButton"
             android:layout_alignParentRight="true"/>
     </RelativeLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/yellow"
+        android:layout_below="@id/buttonsLayout"
+        android:id="@+id/versionText"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"/>
 </RelativeLayout>
 </ScrollView>
