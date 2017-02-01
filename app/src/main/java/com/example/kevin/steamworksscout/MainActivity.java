@@ -365,7 +365,6 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
             Boolean result = true;
             String url = contactData[0];
             String postBody = "";
-            System.out.println(contactData[11]);
             try {
                 postBody = TEAM_NUMBER_KEY[currentSpreadsheet] + "=" + URLEncoder.encode(contactData[1], "UTF-8") +
                         "&" + MATCH_NUMBER_KEY[currentSpreadsheet] + "=" + URLEncoder.encode(contactData[2], "UTF-8") +
