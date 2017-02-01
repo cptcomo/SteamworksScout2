@@ -3,9 +3,12 @@ package com.example.kevin.steamworksscout;
 import android.content.Context;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,9 +25,16 @@ import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.sql.BatchUpdateException;
 
 import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity implements AsyncResponse {
     public static final MediaType FORM_DATA_TYPE = MediaType.parse("application/x-www-form-urlencoded; charset=utf-8");
@@ -44,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
     public static final String[] HIGH_GOAL_CYCLES_KEY = {"entry_526792915"};
     public static final String[] HIGH_GOAL_MISSES_KEY = {"entry_1725977695"};
     public static final String[] CARGO_SIZE_KEY = {"entry_1962237108"};
-    public static final String[] DEFENDS_KEY = {"entry_518959206"};
+    public static final String[] DEFENDS_KEY = {"entry_1165597892"};
     public static final String[] HANGS_KEY = {"entry_385527112"};
     public static final String[] COMMENTS_KEY = {"entry_483134571"};
 
@@ -77,6 +87,8 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
     private Button resetButton;
     private Button sendButton;
     private TextView versionText;
+
+    private String[] outputs;
 
     private final String VERSION_NAME = BuildConfig.VERSION_NAME;
 
@@ -270,6 +282,50 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
     }
 
     private void send(boolean forceSend) {
+        if(!canSend) return;
+
+        //Make sure that all fields are filled with values
+        if(!forceSend){
+            if(TextUtils.isEmpty(initialsField.getText().toString())){
+                displayText("Please enter your initials", 2);
+                return;
+            }
+            if(TextUtils.isEmpty(teamNumberField.getText().toString())){
+                displayText("Please enter a team number", 2);
+                return;
+            }
+            if(TextUtils.isEmpty(matchNumberField.getText().toString())){
+                displayText("Please enter in the qualification match number", 2);
+                return;
+            }
+            if(TextUtils.isEmpty(cargoSizeField.getText().toString())){
+                displayText("Please estimate robot cargo size for fuel", 2);
+                return;
+            }
+        }
+
+        canSend = false;
+
+        PostDataTask postDataTask = new PostDataTask(this);
+
+        outputs = new String[14];
+        outputs[0] = teamNumberField.getText().toString();
+        outputs[1] = matchNumberField.getText().toString();
+        outputs[2] = gearInAutoBox.isChecked() ? "1" : "0";
+        outputs[3] = lowFuelAutoBox.isChecked() ? "1" : "0";
+        outputs[4] = highFuelAutoSpinner.getSelectedItem().toString();
+        outputs[5] = gearsScoredSpinner.getSelectedItem().toString();
+        outputs[6] = lowFuelCyclesSpinner.getSelectedItem().toString();
+        outputs[7] = highFuelCyclesSpinner.getSelectedItem().toString();
+        outputs[8] = highFuelMissedSpinner.getSelectedItem().toString();
+        outputs[9] = cargoSizeField.getText().toString();
+        outputs[10] = Integer.toString(defendsSpinner.getSelectedItemPosition());
+        outputs[11] = hangsBox.isChecked() ? "1" : "0";
+        outputs[12] = commentsField.getText().toString();
+        outputs[13] = initialsField.getText().toString();
+
+        postDataTask.execute(SPREADSHEET_URLS[currentSpreadsheet], outputs[0], outputs[1], outputs[2], outputs[3], outputs[4], outputs[5], outputs[6], outputs[7],
+                outputs[8], outputs[9], outputs[10], outputs[11], outputs[12], outputs[13]);
     }
 
     private void resetFields(){
@@ -287,6 +343,7 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
         defendsSpinner.setSelection(0);
         hangsBox.setChecked(false);
         commentsField.setText("");
+        scrollView.scrollTo(0,0);
     }
 
     private void displayText(String text, int duration){
@@ -298,9 +355,68 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
         toast.show();
     }
 
+    private class PostDataTask extends AsyncTask<String, Void, Boolean> {
+        public AsyncResponse delegate;
+        public PostDataTask(AsyncResponse a){
+            this.delegate = a;
+        }
+
+        @Override protected Boolean doInBackground(String... contactData){
+            Boolean result = true;
+            String url = contactData[0];
+            String postBody = "";
+            System.out.println(contactData[11]);
+            try {
+                postBody = TEAM_NUMBER_KEY[currentSpreadsheet] + "=" + URLEncoder.encode(contactData[1], "UTF-8") +
+                        "&" + MATCH_NUMBER_KEY[currentSpreadsheet] + "=" + URLEncoder.encode(contactData[2], "UTF-8") +
+                        "&" + GEAR_IN_AUTO_KEY[currentSpreadsheet] + "=" + URLEncoder.encode(contactData[3], "UTF-8") +
+                        "&" + LOW_SCORE_IN_AUTO_KEY[currentSpreadsheet] + "=" + URLEncoder.encode(contactData[4], "UTF-8") +
+                        "&" + HIGH_FUEL_AUTO_KEY[currentSpreadsheet] + "=" + URLEncoder.encode(contactData[5], "UTF-8") +
+                        "&" + GEARS_DELIVERED_KEY[currentSpreadsheet] + "=" + URLEncoder.encode(contactData[6], "UTF-8") +
+                        "&" + LOW_GOAL_CYCLES_KEY[currentSpreadsheet] + "=" + URLEncoder.encode(contactData[7], "UTF-8") +
+                        "&" + HIGH_GOAL_CYCLES_KEY[currentSpreadsheet] + "=" + URLEncoder.encode(contactData[8], "UTF-8") +
+                        "&" + HIGH_GOAL_MISSES_KEY[currentSpreadsheet] + "=" + URLEncoder.encode(contactData[9], "UTF-8") +
+                        "&" + CARGO_SIZE_KEY[currentSpreadsheet] + "=" + URLEncoder.encode(contactData[10], "UTF-8") +
+                        "&" + DEFENDS_KEY[currentSpreadsheet] + "=" + URLEncoder.encode(contactData[11], "UTF-8") +
+                        "&" + HANGS_KEY[currentSpreadsheet] + "=" + URLEncoder.encode(contactData[12], "UTF-8") +
+                        "&" + COMMENTS_KEY[currentSpreadsheet] + "=" + URLEncoder.encode(contactData[13], "UTF-8") +
+                        "&" + INITALS_KEY[currentSpreadsheet] + "=" + URLEncoder.encode(contactData[14], "UTF-8");
+            } catch (UnsupportedEncodingException e){
+                result = false;
+            }
+            try {
+                OkHttpClient client = new OkHttpClient();
+                RequestBody body = RequestBody.create(FORM_DATA_TYPE, postBody);
+                Request request = new Request.Builder().url(url).post(body).build();
+                Response response = client.newCall(request).execute();
+            } catch(IOException e){
+                result = false;
+            }
+            return result;
+        }
+        @Override protected void onPostExecute(Boolean result){
+            delegate.processFinish(result);
+        }
+    }
+
 
     @Override
     public void processFinish(boolean result) {
+        if(result){
+            displayText("Data successfully sent!", 2);
+            resetFields();
+        }
+        else {
+            //Write to file
+            displayText("Data not sent", 2);
+        }
+        canSend = true;
+    }
 
+    @Override public boolean onKeyDown(int keyCode, KeyEvent event){
+        if(keyCode == KeyEvent.KEYCODE_MENU){
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }
