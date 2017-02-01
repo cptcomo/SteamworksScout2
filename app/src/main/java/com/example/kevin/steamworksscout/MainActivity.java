@@ -3,6 +3,7 @@ package com.example.kevin.steamworksscout;
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -111,7 +112,29 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse{
 
         versionText.setText("Version: " + VERSION_NAME);
 
+        String[] fuelInHighItems = new String[]{"0", "5", "10", "15", "20", "25", "30", "35", "40", "45", "50"};
+        ArrayAdapter<String> fuelInHighAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, fuelInHighItems);
+        highFuelAutoSpinner.setAdapter(fuelInHighAdapter);
 
+        String[] gearsScoredItems = new String[]{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13"};
+        ArrayAdapter<String> gearsScoredAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, gearsScoredItems);
+        gearsScoredSpinner.setAdapter(gearsScoredAdapter);
+
+        String[] lowFuelCyclesItems = new String[]{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13"};
+        ArrayAdapter<String> lowFuelCyclesAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, lowFuelCyclesItems);
+        lowFuelCyclesSpinner.setAdapter(lowFuelCyclesAdapter);
+
+        String[] highFuelCyclesItems = new String[]{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13"};
+        ArrayAdapter<String> highFuelCyclesAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, highFuelCyclesItems);
+        highFuelCyclesSpinner.setAdapter(highFuelCyclesAdapter);
+
+        String[] fuelMissedItems = new String[]{"0", "5", "10", "15", "20", "25", "30", "35", "40", "45", "50"};
+        ArrayAdapter<String> fuelMissedAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, fuelMissedItems);
+        highFuelMissedSpinner.setAdapter(fuelMissedAdapter);
+
+        String[] defendsItems = new String[]{"None", "Neutral", "Launchpad", "Key"};
+        ArrayAdapter<String> defendsAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, defendsItems);
+        defendsSpinner.setAdapter(defendsAdapter);
     }
 
     @Override
