@@ -16,6 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.RadioGroup;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -42,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
     private final String BLUE_CHEESE_URL = "https://docs.google.com/forms/d/1pitt9JZfNmenfGQ4TznAdKFJYjAT8HZPqu-nEs826cU/formResponse";
     private final String G3_URL = "https://docs.google.com/forms/d/e/1FAIpQLSfx_g9zbqds3KcdYsoa0gLq7behhZsWfXk1e3u-_-h7EBuy3A/formResponse";
     private final String[] SPREADSHEET_URLS = {BLUE_CHEESE_URL, G3_URL};
-    private int currentSpreadsheet = 1;
+    private int currentSpreadsheet = 0;
 
     public static final String[] INITALS_KEY = {"entry_1866261740", "entry_1789585754"};
     public static final String[] TEAM_NUMBER_KEY = {"entry_454837117", "entry_148913451"};
@@ -64,8 +65,8 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
     private EditText initialsField;
     private EditText matchNumberField;
     private EditText teamNumberField;
-    private CheckBox gearInAutoBox;
-    private CheckBox lowFuelAutoBox;
+    private RadioGroup gearAutoGroup;
+    private RadioGroup lowAutoGroup;
     private Button decHighFuelAutoButton;
     private Spinner highFuelAutoSpinner;
     private Button incHighFuelAutoButton;
@@ -107,8 +108,8 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
         initialsField = (EditText) findViewById(R.id.nameField);
         matchNumberField = (EditText) findViewById(R.id.matchNumber);
         teamNumberField = (EditText) findViewById(R.id.teamNumber);
-        gearInAutoBox = (CheckBox) findViewById(R.id.gearAutoBox);
-        lowFuelAutoBox = (CheckBox) findViewById(R.id.lowInAutoBox);
+        gearAutoGroup = (RadioGroup) findViewById(R.id.gearAutoGroup);
+        lowAutoGroup = (RadioGroup) findViewById(R.id.lowAutoGroup);
         decHighFuelAutoButton = (Button) findViewById(R.id.decHighFuelAutoButton);
         highFuelAutoSpinner = (Spinner) findViewById(R.id.highFuelAutoSpinner);
         incHighFuelAutoButton = (Button) findViewById(R.id.incHighFuelAutoButton);
@@ -312,8 +313,8 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
         outputs = new String[14];
         outputs[0] = teamNumberField.getText().toString();
         outputs[1] = matchNumberField.getText().toString();
-        outputs[2] = gearInAutoBox.isChecked() ? "1" : "0";
-        outputs[3] = lowFuelAutoBox.isChecked() ? "1" : "0";
+        outputs[2] = Integer.toString(gearAutoGroup.indexOfChild(findViewById(gearAutoGroup.getCheckedRadioButtonId())));
+        outputs[3] = Integer.toString(lowAutoGroup.indexOfChild(findViewById(lowAutoGroup.getCheckedRadioButtonId())));
         outputs[4] = highFuelAutoSpinner.getSelectedItem().toString();
         outputs[5] = gearsScoredSpinner.getSelectedItem().toString();
         outputs[6] = lowFuelCyclesSpinner.getSelectedItem().toString();
@@ -333,8 +334,8 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
         initialsField.setText("");
         matchNumberField.setText("");
         teamNumberField.setText("");
-        gearInAutoBox.setChecked(false);
-        lowFuelAutoBox.setChecked(false);
+        gearAutoGroup.clearCheck();
+        lowAutoGroup.clearCheck();
         highFuelAutoSpinner.setSelection(0);
         gearsScoredSpinner.setSelection(0);
         lowFuelCyclesSpinner.setSelection(0);
