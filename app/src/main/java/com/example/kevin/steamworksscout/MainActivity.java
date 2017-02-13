@@ -135,7 +135,7 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
 
         versionText.setText("Version: " + VERSION_NAME);
 
-        String[] fuelInHighItems = new String[]{"0", "5", "10", "15", "20", "25", "30", "35", "40", "45", "50"};
+        String[] fuelInHighItems = new String[]{"N/A", "0", "5", "10", "15", "20", "25", "30", "35", "40", "45", "50"};
         ArrayAdapter<String> fuelInHighAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, fuelInHighItems);
         highFuelAutoSpinner.setAdapter(fuelInHighAdapter);
 
@@ -313,9 +313,9 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
         outputs = new String[14];
         outputs[0] = teamNumberField.getText().toString();
         outputs[1] = matchNumberField.getText().toString();
-        outputs[2] = Integer.toString(gearAutoGroup.indexOfChild(findViewById(gearAutoGroup.getCheckedRadioButtonId())));
-        outputs[3] = Integer.toString(lowAutoGroup.indexOfChild(findViewById(lowAutoGroup.getCheckedRadioButtonId())));
-        outputs[4] = highFuelAutoSpinner.getSelectedItem().toString();
+        outputs[2] = Integer.toString(gearAutoGroup.indexOfChild(findViewById(gearAutoGroup.getCheckedRadioButtonId())) - 2);
+        outputs[3] = Integer.toString(lowAutoGroup.indexOfChild(findViewById(lowAutoGroup.getCheckedRadioButtonId())) - 2);
+        outputs[4] = highFuelAutoSpinner.getSelectedItemPosition() == 0 ? "-1" : highFuelAutoSpinner.getSelectedItem().toString();
         outputs[5] = gearsScoredSpinner.getSelectedItem().toString();
         outputs[6] = lowFuelCyclesSpinner.getSelectedItem().toString();
         outputs[7] = highFuelCyclesSpinner.getSelectedItem().toString();
@@ -334,8 +334,8 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
         initialsField.setText("");
         matchNumberField.setText("");
         teamNumberField.setText("");
-        gearAutoGroup.clearCheck();
-        lowAutoGroup.clearCheck();
+        gearAutoGroup.check(R.id.gearNotAttemptedAutoButton);
+        lowAutoGroup.check(R.id.lowNotAttemptedButton);
         highFuelAutoSpinner.setSelection(0);
         gearsScoredSpinner.setSelection(0);
         lowFuelCyclesSpinner.setSelection(0);

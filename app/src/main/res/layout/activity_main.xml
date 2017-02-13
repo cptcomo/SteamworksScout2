@@ -73,7 +73,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/gearAutoGroup"
         android:layout_below="@id/autonomousText"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:checkedButton="@+id/gearNotAttemptedAutoButton">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -109,6 +110,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/lowAutoGroup"
         android:layout_below="@id/gearAutoGroup"
+        android:checkedButton="@+id/lowNotAttemptedButton"
         android:orientation="horizontal">
         <TextView
             android:layout_width="wrap_content"
@@ -371,7 +373,7 @@
         android:layout_below="@id/highFuelMissedLayout"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:hint="Cargo Size"></EditText>
+        android:hint="Approx. Max Cargo Size"></EditText>
 
     <RelativeLayout
         android:layout_width="match_parent"
