@@ -282,6 +282,10 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
     }
 
     private void send(boolean forceSend) {
+        if(true){
+            displayText("Sending is disabled in this version", 2);
+            return;
+        }
         if(!canSend) return;
 
         //Make sure that all fields are filled with values
