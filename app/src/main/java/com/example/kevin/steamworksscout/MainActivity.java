@@ -40,23 +40,24 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
     public static final MediaType FORM_DATA_TYPE = MediaType.parse("application/x-www-form-urlencoded; charset=utf-8");
 
     private final String BLUE_CHEESE_URL = "https://docs.google.com/forms/d/1pitt9JZfNmenfGQ4TznAdKFJYjAT8HZPqu-nEs826cU/formResponse";
-    private final String[] SPREADSHEET_URLS = {BLUE_CHEESE_URL};
+    private final String G3_URL = "https://docs.google.com/forms/d/e/1FAIpQLSfx_g9zbqds3KcdYsoa0gLq7behhZsWfXk1e3u-_-h7EBuy3A/formResponse";
+    private final String[] SPREADSHEET_URLS = {BLUE_CHEESE_URL, G3_URL};
     private int currentSpreadsheet = 0;
 
-    public static final String[] INITALS_KEY = {"entry_1866261740"};
-    public static final String[] TEAM_NUMBER_KEY = {"entry_454837117"};
-    public static final String[] MATCH_NUMBER_KEY = {"entry_518959206"};
-    public static final String[] GEAR_IN_AUTO_KEY = {"entry_1624132469"};
-    public static final String[] LOW_SCORE_IN_AUTO_KEY = {"entry_703108754"};
-    public static final String[] HIGH_FUEL_AUTO_KEY = {"entry_1358789974"};
-    public static final String[] GEARS_DELIVERED_KEY = {"entry_1947458747"};
-    public static final String[] LOW_GOAL_CYCLES_KEY = {"entry_1105753301"};
-    public static final String[] HIGH_GOAL_CYCLES_KEY = {"entry_526792915"};
-    public static final String[] HIGH_GOAL_MISSES_KEY = {"entry_1725977695"};
-    public static final String[] CARGO_SIZE_KEY = {"entry_1962237108"};
-    public static final String[] DEFENDS_KEY = {"entry_1165597892"};
-    public static final String[] HANGS_KEY = {"entry_385527112"};
-    public static final String[] COMMENTS_KEY = {"entry_483134571"};
+    public static final String[] INITALS_KEY = {"entry_1866261740", "entry_1789585754"};
+    public static final String[] TEAM_NUMBER_KEY = {"entry_454837117", "entry_148913451"};
+    public static final String[] MATCH_NUMBER_KEY = {"entry_518959206", "entry_1844915886"};
+    public static final String[] GEAR_IN_AUTO_KEY = {"entry_1624132469", "entry_1024106334"};
+    public static final String[] LOW_SCORE_IN_AUTO_KEY = {"entry_703108754", "entry_1205206372"};
+    public static final String[] HIGH_FUEL_AUTO_KEY = {"entry_1358789974", "entry_111459469"};
+    public static final String[] GEARS_DELIVERED_KEY = {"entry_1947458747", "entry_749764785"};
+    public static final String[] LOW_GOAL_CYCLES_KEY = {"entry_1105753301", "entry_1401458059"};
+    public static final String[] HIGH_GOAL_CYCLES_KEY = {"entry_526792915", "entry_82527184"};
+    public static final String[] HIGH_GOAL_MISSES_KEY = {"entry_1725977695", "entry_395459313"};
+    public static final String[] CARGO_SIZE_KEY = {"entry_1962237108", "entry_1276450365"};
+    public static final String[] DEFENDS_KEY = {"entry_1165597892", "entry_703827150"};
+    public static final String[] HANGS_KEY = {"entry_385527112", "entry_658280372"};
+    public static final String[] COMMENTS_KEY = {"entry_483134571", "entry_694395040"};
 
     private Context context;
     private ScrollView scrollView;
@@ -198,7 +199,7 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
         decHighFuelAutoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (highFuelAutoSpinner.getSelectedItemPosition() > 0) {
+                if(highFuelAutoSpinner.getSelectedItemPosition() > 0) {
                     highFuelAutoSpinner.setSelection(highFuelAutoSpinner.getSelectedItemPosition() - 1);
                 }
             }
@@ -282,10 +283,6 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
     }
 
     private void send(boolean forceSend) {
-        if(true){
-            displayText("Sending is disabled in this version", 2);
-            return;
-        }
         if(!canSend) return;
 
         //Make sure that all fields are filled with values
