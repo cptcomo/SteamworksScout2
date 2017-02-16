@@ -16,6 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.RadioGroup;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -40,31 +41,32 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
     public static final MediaType FORM_DATA_TYPE = MediaType.parse("application/x-www-form-urlencoded; charset=utf-8");
 
     private final String BLUE_CHEESE_URL = "https://docs.google.com/forms/d/1pitt9JZfNmenfGQ4TznAdKFJYjAT8HZPqu-nEs826cU/formResponse";
-    private final String[] SPREADSHEET_URLS = {BLUE_CHEESE_URL};
+    private final String G3_URL = "https://docs.google.com/forms/d/e/1FAIpQLSfx_g9zbqds3KcdYsoa0gLq7behhZsWfXk1e3u-_-h7EBuy3A/formResponse";
+    private final String[] SPREADSHEET_URLS = {BLUE_CHEESE_URL, G3_URL};
     private int currentSpreadsheet = 0;
 
-    public static final String[] INITALS_KEY = {"entry_1866261740"};
-    public static final String[] TEAM_NUMBER_KEY = {"entry_454837117"};
-    public static final String[] MATCH_NUMBER_KEY = {"entry_518959206"};
-    public static final String[] GEAR_IN_AUTO_KEY = {"entry_1624132469"};
-    public static final String[] LOW_SCORE_IN_AUTO_KEY = {"entry_703108754"};
-    public static final String[] HIGH_FUEL_AUTO_KEY = {"entry_1358789974"};
-    public static final String[] GEARS_DELIVERED_KEY = {"entry_1947458747"};
-    public static final String[] LOW_GOAL_CYCLES_KEY = {"entry_1105753301"};
-    public static final String[] HIGH_GOAL_CYCLES_KEY = {"entry_526792915"};
-    public static final String[] HIGH_GOAL_MISSES_KEY = {"entry_1725977695"};
-    public static final String[] CARGO_SIZE_KEY = {"entry_1962237108"};
-    public static final String[] DEFENDS_KEY = {"entry_1165597892"};
-    public static final String[] HANGS_KEY = {"entry_385527112"};
-    public static final String[] COMMENTS_KEY = {"entry_483134571"};
+    public static final String[] INITALS_KEY = {"entry_1866261740", "entry_1789585754"};
+    public static final String[] TEAM_NUMBER_KEY = {"entry_454837117", "entry_148913451"};
+    public static final String[] MATCH_NUMBER_KEY = {"entry_518959206", "entry_1844915886"};
+    public static final String[] GEAR_IN_AUTO_KEY = {"entry_1624132469", "entry_1024106334"};
+    public static final String[] LOW_SCORE_IN_AUTO_KEY = {"entry_703108754", "entry_1205206372"};
+    public static final String[] HIGH_FUEL_AUTO_KEY = {"entry_1358789974", "entry_111459469"};
+    public static final String[] GEARS_DELIVERED_KEY = {"entry_1947458747", "entry_749764785"};
+    public static final String[] LOW_GOAL_CYCLES_KEY = {"entry_1105753301", "entry_1401458059"};
+    public static final String[] HIGH_GOAL_CYCLES_KEY = {"entry_526792915", "entry_82527184"};
+    public static final String[] HIGH_GOAL_MISSES_KEY = {"entry_1725977695", "entry_395459313"};
+    public static final String[] CARGO_SIZE_KEY = {"entry_1962237108", "entry_1276450365"};
+    public static final String[] DEFENDS_KEY = {"entry_1165597892", "entry_703827150"};
+    public static final String[] HANGS_KEY = {"entry_385527112", "entry_658280372"};
+    public static final String[] COMMENTS_KEY = {"entry_483134571", "entry_694395040"};
 
     private Context context;
     private ScrollView scrollView;
     private EditText initialsField;
     private EditText matchNumberField;
     private EditText teamNumberField;
-    private CheckBox gearInAutoBox;
-    private CheckBox lowFuelAutoBox;
+    private RadioGroup gearAutoGroup;
+    private RadioGroup lowAutoGroup;
     private Button decHighFuelAutoButton;
     private Spinner highFuelAutoSpinner;
     private Button incHighFuelAutoButton;
@@ -106,8 +108,8 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
         initialsField = (EditText) findViewById(R.id.nameField);
         matchNumberField = (EditText) findViewById(R.id.matchNumber);
         teamNumberField = (EditText) findViewById(R.id.teamNumber);
-        gearInAutoBox = (CheckBox) findViewById(R.id.gearAutoBox);
-        lowFuelAutoBox = (CheckBox) findViewById(R.id.lowInAutoBox);
+        gearAutoGroup = (RadioGroup) findViewById(R.id.gearAutoGroup);
+        lowAutoGroup = (RadioGroup) findViewById(R.id.lowAutoGroup);
         decHighFuelAutoButton = (Button) findViewById(R.id.decHighFuelAutoButton);
         highFuelAutoSpinner = (Spinner) findViewById(R.id.highFuelAutoSpinner);
         incHighFuelAutoButton = (Button) findViewById(R.id.incHighFuelAutoButton);
@@ -133,7 +135,7 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
 
         versionText.setText("Version: " + VERSION_NAME);
 
-        String[] fuelInHighItems = new String[]{"0", "5", "10", "15", "20", "25", "30", "35", "40", "45", "50"};
+        String[] fuelInHighItems = new String[]{"N/A", "0", "5", "10", "15", "20", "25", "30", "35", "40", "45", "50"};
         ArrayAdapter<String> fuelInHighAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, fuelInHighItems);
         highFuelAutoSpinner.setAdapter(fuelInHighAdapter);
 
@@ -198,7 +200,7 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
         decHighFuelAutoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (highFuelAutoSpinner.getSelectedItemPosition() > 0) {
+                if(highFuelAutoSpinner.getSelectedItemPosition() > 0) {
                     highFuelAutoSpinner.setSelection(highFuelAutoSpinner.getSelectedItemPosition() - 1);
                 }
             }
@@ -311,9 +313,9 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
         outputs = new String[14];
         outputs[0] = teamNumberField.getText().toString();
         outputs[1] = matchNumberField.getText().toString();
-        outputs[2] = gearInAutoBox.isChecked() ? "1" : "0";
-        outputs[3] = lowFuelAutoBox.isChecked() ? "1" : "0";
-        outputs[4] = highFuelAutoSpinner.getSelectedItem().toString();
+        outputs[2] = Integer.toString(gearAutoGroup.indexOfChild(findViewById(gearAutoGroup.getCheckedRadioButtonId())) - 2);
+        outputs[3] = Integer.toString(lowAutoGroup.indexOfChild(findViewById(lowAutoGroup.getCheckedRadioButtonId())) - 2);
+        outputs[4] = highFuelAutoSpinner.getSelectedItemPosition() == 0 ? "-1" : highFuelAutoSpinner.getSelectedItem().toString();
         outputs[5] = gearsScoredSpinner.getSelectedItem().toString();
         outputs[6] = lowFuelCyclesSpinner.getSelectedItem().toString();
         outputs[7] = highFuelCyclesSpinner.getSelectedItem().toString();
@@ -332,8 +334,8 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
         initialsField.setText("");
         matchNumberField.setText("");
         teamNumberField.setText("");
-        gearInAutoBox.setChecked(false);
-        lowFuelAutoBox.setChecked(false);
+        gearAutoGroup.check(R.id.gearNotAttemptedAutoButton);
+        lowAutoGroup.check(R.id.lowNotAttemptedButton);
         highFuelAutoSpinner.setSelection(0);
         gearsScoredSpinner.setSelection(0);
         lowFuelCyclesSpinner.setSelection(0);
