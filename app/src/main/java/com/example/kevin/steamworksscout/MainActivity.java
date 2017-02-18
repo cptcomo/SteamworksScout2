@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -26,6 +27,8 @@ import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -43,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
     private final String BLUE_CHEESE_URL = "https://docs.google.com/forms/d/1pitt9JZfNmenfGQ4TznAdKFJYjAT8HZPqu-nEs826cU/formResponse";
     private final String G3_URL = "https://docs.google.com/forms/d/e/1FAIpQLSfx_g9zbqds3KcdYsoa0gLq7behhZsWfXk1e3u-_-h7EBuy3A/formResponse";
     private final String[] SPREADSHEET_URLS = {BLUE_CHEESE_URL, G3_URL};
-    private int currentSpreadsheet = 0;
+    private int currentSpreadsheet = 1;
 
     public static final String[] INITALS_KEY = {"entry_1866261740", "entry_1789585754"};
     public static final String[] TEAM_NUMBER_KEY = {"entry_454837117", "entry_148913451"};
@@ -330,6 +333,49 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
                 outputs[8], outputs[9], outputs[10], outputs[11], outputs[12], outputs[13]);
     }
 
+    private boolean writeToFile(){
+        if(isExternalStorageWritable()){
+            File fileDirectory = new File(Environment.getExternalStorageDirectory() + "/Documents");
+            boolean isPresent = true;
+            if(!fileDirectory.exists()){
+                isPresent = fileDirectory.mkdir();
+            }
+            File file;
+            if(isPresent){
+                file = new File(fileDirectory.getAbsolutePath(), "Steamworks Scouting Data.txt");
+            }
+            else {
+                displayText("ERROR: unable to create file", 3);
+                return false;
+            }
+            FileOutputStream out;
+            String output = "";
+            output += outputs[12] + "|" + outputs[0] + "|"  + outputs[1] + "|" + outputs[2] + "|" + outputs[3] + "|"
+                    + outputs[4] + "|" + outputs[5] + "|" + outputs[6] + "|" + outputs[7] + "|" + outputs[8] + "|"
+                    + outputs[9] + "|" + outputs[10] + "|" + outputs[11] + "|" + outputs[13] + "\n";
+            try {
+                out = new FileOutputStream(file, true);
+                out.write(output.getBytes());
+                out.close();
+                displayText("Due to no Internet access, data has been stored in a local file. Contact " +
+                            "a scouting admin for further assistance", 5);
+            } catch(IOException e){
+                displayText("ERROR: Error writing data to file", Toast.LENGTH_LONG);
+                e.printStackTrace();
+                return false;
+            }
+        }
+        else {
+            displayText("ERROR: External storage not readable", 3);
+            return false;
+        }
+        return true;
+    }
+
+    private boolean isExternalStorageWritable(){
+        return Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState());
+    }
+
     private void resetFields(){
         initialsField.setText("");
         matchNumberField.setText("");
@@ -408,8 +454,12 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
             resetFields();
         }
         else {
-            //Write to file
-            displayText("Data not sent", 2);
+            if(writeToFile()){
+                resetFields();
+            }
+            else {
+                displayText("Both sending data and writing to a file failed. This is a problem.", 5);
+            }
         }
         canSend = true;
     }
