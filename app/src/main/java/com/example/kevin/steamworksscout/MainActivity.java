@@ -1,7 +1,9 @@
 package com.example.kevin.steamworksscout;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
@@ -13,11 +15,13 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -63,6 +67,9 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
     public static final String[] HANGS_KEY = {"entry_385527112", "entry_658280372"};
     public static final String[] COMMENTS_KEY = {"entry_483134571", "entry_694395040"};
 
+    private RelativeLayout teamSelection, mainApp;
+    private Button submitTeamNumberButton;
+    private EditText teamField;
     private Context context;
     private ScrollView scrollView;
     private EditText initialsField;
@@ -93,6 +100,9 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
     private Button sendButton;
     private TextView versionText;
 
+    private SharedPreferences settings;
+    private SharedPreferences.Editor editor;
+
     private String[] outputs;
 
     private final String VERSION_NAME = BuildConfig.VERSION_NAME;
@@ -105,6 +115,23 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        teamSelection = (RelativeLayout)findViewById(R.id.teamSelection);
+        mainApp = (RelativeLayout)findViewById(R.id.mainApp);
+        teamField = (EditText)findViewById(R.id.teamField);
+        submitTeamNumberButton = (Button)findViewById(R.id.submitTeamNumberButton);
+
+        settings = getSharedPreferences("AppData", 0);
+        int teamNumber = settings.getInt("teamNumber", 0);
+        if(teamNumber != 0){
+            teamSelection.setVisibility(View.GONE);
+            mainApp.setVisibility(View.VISIBLE);
+            teamConfig(teamNumber);
+        }
+        else {
+            teamSelection.setVisibility(View.VISIBLE);
+            mainApp.setVisibility(View.GONE);
+        }
 
         context = this;
         scrollView = (ScrollView) findViewById(R.id.scrollView);
@@ -138,7 +165,7 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
 
         versionText.setText("Version: " + VERSION_NAME);
 
-        String[] fuelInHighItems = new String[]{"N/A", "0", "5", "10", "15", "20", "25", "30", "35", "40", "45", "50"};
+        String[] fuelInHighItems = new String[]{"No Attempt", "0", "5", "10", "15", "20", "25", "30", "35", "40", "45", "50"};
         ArrayAdapter<String> fuelInHighAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, fuelInHighItems);
         highFuelAutoSpinner.setAdapter(fuelInHighAdapter);
 
@@ -284,8 +311,61 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
                 }
             }
         });
+        submitTeamNumberButton.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v){
+                int teamNumber;
+                try {
+                    teamNumber = Integer.parseInt(teamField.getText().toString());
+                    System.out.println(teamNumber);
+                }catch(Exception e){
+                    e.printStackTrace();
+                    displayText("Not a valid number", 3);
+                    return;
+                }
+                if(teamNumber == 1086 || teamNumber == 1648){
+                    editor = settings.edit();
+                    editor.putInt("teamNumber", teamNumber);
+                    editor.commit();
+                    teamConfig(teamNumber);
+                    teamSelection.setVisibility(View.GONE);
+                    mainApp.setVisibility(View.VISIBLE);
+                }
+                else {
+                    displayText("The team number you entered is not supported by this app.", 3);
+                }
+            }
+        });
     }
 
+    private void teamConfig(int teamNumber){
+        System.out.println("Calling team config with number: " + teamNumber);
+        if(teamNumber == 1086){
+            currentSpreadsheet = 0;
+        }
+        else if(teamNumber == 1648){
+            currentSpreadsheet = 1;
+        }
+        else {
+            currentSpreadsheet = 0;
+        }
+    }
+
+    //This method is here so that you can press on the background and the keyboard goes away.
+    @Override public boolean dispatchTouchEvent(MotionEvent event){
+        if(event.getAction() == MotionEvent.ACTION_DOWN){
+            View v = getCurrentFocus();
+            if (v instanceof EditText) {
+                Rect outRect = new Rect();
+                v.getGlobalVisibleRect(outRect);
+                if(!outRect.contains((int)event.getRawX(), (int)event.getRawY())) {
+                    v.clearFocus();
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                }
+            }
+        }
+        return super.dispatchTouchEvent(event);
+    }
     private void send(boolean forceSend) {
         if(!canSend) return;
 
