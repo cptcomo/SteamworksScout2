@@ -435,7 +435,7 @@
     <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Climb:"
+        android:text="Climb"
         android:textColor="@color/yellow"
         android:id="@+id/hangBox"
         android:layout_below="@id/defendsLayout"

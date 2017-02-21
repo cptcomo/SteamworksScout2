@@ -477,9 +477,9 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
     private void displayText(String text, int duration){
         Toast toast = Toast.makeText(context, text, duration);
         toast.setGravity(Gravity.TOP, 0, 10);
-        toast.getView().setBackgroundColor(Color.rgb(255, 30, 30));
-        TextView v = (TextView)toast.getView().findViewById(android.R.id.message);
-        v.setTextColor(Color.YELLOW);
+       // toast.getView().setBackgroundColor(Color.rgb(255, 30, 30));
+        //TextView v = (TextView)toast.getView().findViewById(android.R.id.message);
+        //v.setTextColor(Color.YELLOW);
         toast.show();
     }
 
