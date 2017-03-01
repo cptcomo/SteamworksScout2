@@ -242,7 +242,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"/>
         <Button
-            android:layout_width="32dp"
+            android:layout_width="38dp"
             android:layout_height="match_parent"
             android:layout_toEndOf="@id/gearsScoredText"
             android:layout_toRightOf="@id/gearsScoredText"
@@ -259,7 +259,7 @@
             android:layout_toRightOf="@id/decGearsScoredButton"
             android:layout_toEndOf="@id/decGearsScoredButton"/>
         <Button
-            android:layout_width="32dp"
+            android:layout_width="38dp"
             android:layout_height="match_parent"
             android:layout_toEndOf="@id/gearsScoredSpinner"
             android:layout_toRightOf="@id/gearsScoredSpinner"
@@ -284,7 +284,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"/>
         <Button
-            android:layout_width="32dp"
+            android:layout_width="38dp"
             android:layout_height="match_parent"
             android:layout_toEndOf="@id/lowFuelCyclesText"
             android:layout_toRightOf="@id/lowFuelCyclesText"
@@ -301,7 +301,7 @@
             android:layout_toRightOf="@id/decLowFuelCyclesButton"
             android:layout_toEndOf="@id/decLowFuelCyclesButton"/>
         <Button
-            android:layout_width="32dp"
+            android:layout_width="38dp"
             android:layout_height="match_parent"
             android:layout_toEndOf="@id/lowFuelCyclesSpinner"
             android:layout_toRightOf="@id/lowFuelCyclesSpinner"
@@ -325,7 +325,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"/>
         <Button
-            android:layout_width="32dp"
+            android:layout_width="38dp"
             android:layout_height="match_parent"
             android:layout_toEndOf="@id/highFuelCyclesText"
             android:layout_toRightOf="@id/highFuelCyclesText"
@@ -342,7 +342,7 @@
             android:layout_toRightOf="@id/decHighFuelCyclesButton"
             android:layout_toEndOf="@id/decHighFuelCyclesButton"/>
         <Button
-            android:layout_width="32dp"
+            android:layout_width="38dp"
             android:layout_height="match_parent"
             android:layout_toEndOf="@id/highFuelCyclesSpinner"
             android:layout_toRightOf="@id/highFuelCyclesSpinner"
@@ -366,7 +366,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"/>
         <Button
-            android:layout_width="32dp"
+            android:layout_width="38dp"
             android:layout_height="match_parent"
             android:layout_toEndOf="@id/highFuelMissedText"
             android:layout_toRightOf="@id/highFuelMissedText"
@@ -383,7 +383,7 @@
             android:layout_toRightOf="@id/decHighFuelMissedButton"
             android:layout_toEndOf="@id/decHighFuelMissedButton"/>
         <Button
-            android:layout_width="32dp"
+            android:layout_width="38dp"
             android:layout_height="match_parent"
             android:layout_toEndOf="@id/highFuelMissedSpinner"
             android:layout_toRightOf="@id/highFuelMissedSpinner"

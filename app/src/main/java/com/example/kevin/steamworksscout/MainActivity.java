@@ -384,7 +384,7 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
                 return;
             }
             if(TextUtils.isEmpty(cargoSizeField.getText().toString())){
-                displayText("Please estimate robot cargo size for fuel", 2);
+                displayText("Please estimate average fuel count per cycle", 2);
                 return;
             }
         }
