@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/scrollView"
+    android:fillViewport="true"
     android:layout_width="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android">
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -18,6 +19,34 @@
     tools:context="com.example.kevin.steamworksscout.MainActivity"
     tools:showIn="@layout/activity_main">
 
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/teamSelection">
+        
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColorHint="@color/yellow"
+            android:textColor="@color/yellow"
+            android:inputType="numberSigned"
+            android:hint="Enter your team number"
+            android:id="@+id/teamField"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Submit"
+            android:layout_below="@id/teamField"
+            android:textColor="@color/blue"
+            android:id="@+id/submitTeamNumberButton"/>
+    </RelativeLayout>
+    
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/teamSelection"
+        android:id="@+id/mainApp">
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -88,20 +117,20 @@
             android:layout_height="wrap_content"
             android:id="@+id/gearNotAttemptedAutoButton"
             android:textColor="@color/white"
-            android:text="N/A"/>
+            android:text="No Attempt"/>
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/gearAutoFailedButton"
             android:textColor="@color/white"
-            android:layout_marginLeft="20sp"
+            android:layout_marginLeft="6sp"
             android:text="0"/>
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/gearScoredAutoButton"
             android:textColor="@color/white"
-            android:layout_marginLeft="20sp"
+            android:layout_marginLeft="6sp"
             android:text="1"/>
     </RadioGroup>
 
@@ -125,20 +154,20 @@
             android:layout_height="wrap_content"
             android:id="@+id/lowNotAttemptedButton"
             android:textColor="@color/white"
-            android:text="N/A"/>
+            android:text="No Attempt"/>
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/lowAutoFailedButton"
             android:textColor="@color/white"
-            android:layout_marginLeft="20sp"
+            android:layout_marginLeft="6sp"
             android:text="0"/>
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/lowAutoScoredButton"
             android:textColor="@color/white"
-            android:layout_marginLeft="20sp"
+            android:layout_marginLeft="6sp"
             android:text="1"/>
     </RadioGroup>
 
@@ -213,7 +242,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"/>
         <Button
-            android:layout_width="32dp"
+            android:layout_width="38dp"
             android:layout_height="match_parent"
             android:layout_toEndOf="@id/gearsScoredText"
             android:layout_toRightOf="@id/gearsScoredText"
@@ -230,7 +259,7 @@
             android:layout_toRightOf="@id/decGearsScoredButton"
             android:layout_toEndOf="@id/decGearsScoredButton"/>
         <Button
-            android:layout_width="32dp"
+            android:layout_width="38dp"
             android:layout_height="match_parent"
             android:layout_toEndOf="@id/gearsScoredSpinner"
             android:layout_toRightOf="@id/gearsScoredSpinner"
@@ -255,7 +284,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"/>
         <Button
-            android:layout_width="32dp"
+            android:layout_width="38dp"
             android:layout_height="match_parent"
             android:layout_toEndOf="@id/lowFuelCyclesText"
             android:layout_toRightOf="@id/lowFuelCyclesText"
@@ -272,7 +301,7 @@
             android:layout_toRightOf="@id/decLowFuelCyclesButton"
             android:layout_toEndOf="@id/decLowFuelCyclesButton"/>
         <Button
-            android:layout_width="32dp"
+            android:layout_width="38dp"
             android:layout_height="match_parent"
             android:layout_toEndOf="@id/lowFuelCyclesSpinner"
             android:layout_toRightOf="@id/lowFuelCyclesSpinner"
@@ -296,7 +325,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"/>
         <Button
-            android:layout_width="32dp"
+            android:layout_width="38dp"
             android:layout_height="match_parent"
             android:layout_toEndOf="@id/highFuelCyclesText"
             android:layout_toRightOf="@id/highFuelCyclesText"
@@ -313,7 +342,7 @@
             android:layout_toRightOf="@id/decHighFuelCyclesButton"
             android:layout_toEndOf="@id/decHighFuelCyclesButton"/>
         <Button
-            android:layout_width="32dp"
+            android:layout_width="38dp"
             android:layout_height="match_parent"
             android:layout_toEndOf="@id/highFuelCyclesSpinner"
             android:layout_toRightOf="@id/highFuelCyclesSpinner"
@@ -337,7 +366,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"/>
         <Button
-            android:layout_width="32dp"
+            android:layout_width="38dp"
             android:layout_height="match_parent"
             android:layout_toEndOf="@id/highFuelMissedText"
             android:layout_toRightOf="@id/highFuelMissedText"
@@ -354,7 +383,7 @@
             android:layout_toRightOf="@id/decHighFuelMissedButton"
             android:layout_toEndOf="@id/decHighFuelMissedButton"/>
         <Button
-            android:layout_width="32dp"
+            android:layout_width="38dp"
             android:layout_height="match_parent"
             android:layout_toEndOf="@id/highFuelMissedSpinner"
             android:layout_toRightOf="@id/highFuelMissedSpinner"
@@ -373,7 +402,7 @@
         android:layout_below="@id/highFuelMissedLayout"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:hint="Approx. Max Cargo Size"></EditText>
+        android:hint="Average Fuel Count"></EditText>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -406,7 +435,7 @@
     <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hang"
+        android:text="Climb"
         android:textColor="@color/yellow"
         android:id="@+id/hangBox"
         android:layout_below="@id/defendsLayout"
@@ -457,5 +486,6 @@
         android:id="@+id/versionText"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"/>
+    </RelativeLayout>
 </RelativeLayout>
 </ScrollView>

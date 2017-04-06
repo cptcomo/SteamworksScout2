@@ -11,7 +11,7 @@
         android:targetSdkVersion="22"></uses-sdk>
     <application
         android:allowBackup="true"
-        android:icon="@drawable/logo_hd"
+        android:icon="@mipmap/ic_launcher"
         android:label="Steamworks Scout"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
